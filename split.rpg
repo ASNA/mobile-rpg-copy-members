@@ -13,6 +13,7 @@
 
             Source = InputStr;
 
+            // If Delimiter arg not provided, default Delim to '-'.
             If %PARMS()=1;
                 Delim = '-';
             Else;
@@ -21,13 +22,17 @@
 
             Clear Result;
 
-            Index = 1;
+            // If no delimiter found, return entire string
+            // in first Result element.
             DelimPos = %SCAN(Delim: Source);
             If (DelimPos = 0);
                 Result(1) = InputStr;
                 Return Result;
             EndIf;
 
+            // Pluck chunks between delimiters and save
+            // in corresponding element of Result array.
+            Index = 1;
             Dow DelimPos <> 0;
                 Result(Index) = %TRIM(%SUBST(Source: 1: DelimPos-1));
                 Source = %SUBST(Source: DelimPos + 1);
@@ -35,6 +40,7 @@
                 Index += 1;
             EndDo;
 
+            // Don't forget last chunk.
             If (%LEN(%TRIM(Source))>0);
                 Result(Index)=%TRIM(Source);
             EndIf;
