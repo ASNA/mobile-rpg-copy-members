@@ -1,0 +1,16 @@
+        Dcl-Ds PgmStatus Qualified;
+            Code Int(10);
+            Message VarChar(100);
+        End-Ds;
+
+        Dcl-Ds Infds;
+            CurrentFormat Char(10) Pos(261);
+        End-Ds;
+
+        Dcl-C TRUE '1';
+        Dcl-C FALSE '0';
+
+        Dcl-C STS_UPDATED     1;
+        Dcl-C STS_ADDED       2;
+        Dcl-C STS_CANCELED    3;
+        Dcl-C STS_NO_READ     4;

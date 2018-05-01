@@ -1,0 +1,37 @@
+        Dcl-Proc alMessage;
+            Dcl-Pi *N;
+                Message Char(75) Const;
+            End-Pi;
+
+            Dcl-DS ErrorDS;
+                BytesProv Int(10) Inz(0);
+                BytesAvail Int(10) Inz(0);
+                ExceptionID Char(7);
+            End-DS;
+
+            Dcl-S MsgData Char(80);
+            Dcl-S MsgKey Char(4);
+
+            Dcl-Pr QMHSNDPM ExtPgm;
+                MessageID             Char(7) Const;
+                QualMsgF              Char(20) Const;
+                MsgData               Char(256) Const;
+                MsgDtaLen             Int(10) Const;
+                MsgType               Char(10) Const;
+                CallStkEnt            Char(10) Const;
+                CallStkCnt            Int(10) Const;
+                MessageKey            Char(4);
+                ErrCode               LikeDS(ErrorDS);
+            End-Pr;
+
+            QMHSNDPM('CPF9898'
+                        : 'QCPFMSG   QSYS'
+                        : Message
+                        : %len(%trimr(Message))
+                        : '*INFO'
+                        : '*PGMBDY'
+                        : 1
+                        : MsgKey
+                        : ErrorDS);
+            Return;
+        End-Proc;

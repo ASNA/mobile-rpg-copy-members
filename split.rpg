@@ -1,0 +1,43 @@
+        Dcl-Proc alSplit;
+            Dcl-Pi *N VarChar(100) Dim(10);
+                InputStr VarChar(100) Const;
+                Delimiter Char(1) Const
+                                  Options(*NoPass);
+            End-Pi;
+
+            Dcl-S Delim Char(1);
+            Dcl-S DelimPos Int(10);
+            Dcl-S Index Int(10);
+            Dcl-S Result VarChar(100) Dim(10);
+            Dcl-S Source VarChar(100);
+
+            Source = InputStr;
+
+            If %PARMS()=1;
+                Delim = '-';
+            Else;
+                Delim = Delimiter;
+            EndIf;
+
+            Clear Result;
+
+            Index = 1;
+            DelimPos = %SCAN(Delim: Source);
+            If (DelimPos = 0);
+                Result(1) = InputStr;
+                Return Result;
+            EndIf;
+
+            Dow DelimPos <> 0;
+                Result(Index) = %TRIM(%SUBST(Source: 1: DelimPos-1));
+                Source = %SUBST(Source: DelimPos + 1);
+                DelimPos = %SCAN(Delim: Source);
+                Index += 1;
+            EndDo;
+
+            If (%LEN(%TRIM(Source))>0);
+                Result(Index)=%TRIM(Source);
+            EndIf;
+
+            Return Result;
+        End-Proc;

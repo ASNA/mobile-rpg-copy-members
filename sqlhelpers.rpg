@@ -1,0 +1,6 @@
+        Dcl-Proc alSQLRowNotFound;
+            Dcl-Pi *N Ind;
+            End-Pi;
+
+            Return SQLSTT = '02000' AND SQLCOD = 100;
+        End-Proc;
